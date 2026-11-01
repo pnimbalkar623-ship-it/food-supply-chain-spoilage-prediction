@@ -1,0 +1,67 @@
+# Byte-compiled / optimised / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Pytest / Test / Coverage caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE / editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets & Local credentials
+.env
+.env.*
+!.env.example
+secrets.toml
+.streamlit/secrets.toml
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Temporary files and generated training/inference outputs
+runs/
+*.tmp
+*.log
+
+# Models: include runtime models and evaluation reports; exclude local backup duplicate
+models/image_model/*
+models/condition_model/*
+!models/image_model/.gitkeep
+!models/condition_model/.gitkeep
+!models/image_model/image_model.joblib
+!models/image_model/evaluation_results.json
+!models/condition_model/condition_model.joblib
+!models/condition_model/evaluation_results.json
+
+# Object detector: keep active moderate and improved models; exclude redundant backup
+models/object_detector/*backup*.pt
+
+# Data files (keep condition CSV, exclude local raw training images)
+data/images/
+!data/**/.gitkeep
+!data/condition_data/Dataset.csv
+
+# Temporary scratch notes
+Untitled-1.txt
+scratch/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
