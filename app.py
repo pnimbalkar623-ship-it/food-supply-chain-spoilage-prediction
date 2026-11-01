@@ -11,6 +11,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.streamlit_app import apply_page_style
 
+
 st.set_page_config(
     page_title="Food Spoilage Prediction",
     page_icon="🍏",
