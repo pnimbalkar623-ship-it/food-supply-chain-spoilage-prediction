@@ -78,7 +78,14 @@ class TestStreamlitAppHelpers(unittest.TestCase):
             ).run()
 
         self.assertFalse(home.exception, [error.message for error in home.exception])
-        self.assertIn("Not bundled", [metric.value for metric in home.metric])
+        self.assertTrue(
+            any("upload food images" in item.value.lower() for item in home.info)
+        )
+        metric_labels = [metric.label for metric in home.metric]
+        self.assertIn("Condition records", metric_labels)
+        self.assertIn("Condition fields", metric_labels)
+        self.assertNotIn("Food images", metric_labels)
+        self.assertNotIn("Model status", [item.value for item in home.subheader])
         self.assertFalse(
             explorer.exception,
             [error.message for error in explorer.exception],

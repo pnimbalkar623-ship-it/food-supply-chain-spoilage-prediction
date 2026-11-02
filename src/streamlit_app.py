@@ -298,8 +298,9 @@ def _show_image_scan_warnings(errors: list[str]) -> None:
 def render_home() -> None:
     st.title("Food Supply Chain Spoilage Prediction")
     st.write(
-        "Explore the condition dataset and food-image collection. Predictions and "
-        "performance scores are shown only after a model has been trained and evaluated."
+        "Explore the shipment condition dataset and analyze food produce. Users can upload "
+        "food images or capture photos with their device camera for spoilage-related visual "
+        "analysis, fruit detection, and postharvest storage recommendations using the saved model."
     )
 
     data, data_error = load_condition_data(CONDITION_CSV)
@@ -308,36 +309,18 @@ def render_home() -> None:
     elif data is None:
         _show_data_error(None)
 
-    image_counts, scan_errors = _get_image_counts()
-    _show_image_scan_warnings(scan_errors)
     condition_rows = len(data) if data is not None else 0
-    image_total = int(image_counts["Images"].sum()) if not image_counts.empty else 0
     condition_columns = len(data.columns) if data is not None else 0
 
-    first, second, third = st.columns(3)
-    first.metric("Condition records", f"{condition_rows:,}")
-    second.metric("Condition fields", condition_columns)
-    image_data_available = os.path.isdir(IMAGE_DATA_DIR)
-    third.metric(
-        "Food images",
-        f"{image_total:,}" if image_data_available else "Not bundled",
-    )
-    if not image_data_available:
-        st.caption(
-            "The full image-training dataset is not included in this deployment. "
-            "Image uploads can still be classified by the saved model."
-        )
+    col1, col2 = st.columns(2)
+    col1.metric("Condition records", f"{condition_rows:,}")
+    col2.metric("Condition fields", condition_columns)
 
-    st.subheader("Model status")
-    image_status, _ = _model_status(IMAGE_MODEL_DIR)
-    condition_status, _ = _model_status(CONDITION_MODEL_DIR)
-    left, right = st.columns(2)
-    with left:
-        st.markdown("**Food image classification**")
-        st.info(image_status)
-    with right:
-        st.markdown("**Shipment condition prediction**")
-        st.info(condition_status)
+    st.info(
+        "📷 **Food Image Analysis:** You can upload food images or use your device camera "
+        "for spoilage-related visual analysis, fruit detection, and item counting using the saved model. "
+        "Navigate to **Food Image Analysis** in the sidebar to get started."
+    )
 
     st.caption(
         "Prediction outputs use the dataset's original labels. They are model estimates, "
