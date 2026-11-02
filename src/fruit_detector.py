@@ -205,7 +205,19 @@ def detect_fruits_in_image(
             error="Empty or invalid image provided.",
         )
 
+    if model is None:
+        return DetectionResult(
+            image_name=image_name,
+            original_image=image,
+            annotated_image=image.copy(),
+            error="Detection model is not loaded.",
+        )
+
     try:
+        # Ensure 3-channel RGB format for YOLO inference
+        if image.mode != "RGB":
+            image = image.convert("RGB")
+
         # Run inference
         results = model.predict(
             source=image,

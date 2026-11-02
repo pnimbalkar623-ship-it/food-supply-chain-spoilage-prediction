@@ -586,6 +586,10 @@ def render_food_image_analysis() -> None:
         st.error(f"Failed to load YOLO detection model: {exc}")
         return
 
+    if detector_model is None:
+        st.error("Failed to load YOLO detection model: Model could not be initialized.")
+        return
+
     st.markdown("---")
     st.subheader("3. Detection Results by Image")
 
@@ -617,7 +621,9 @@ def render_food_image_analysis() -> None:
                 st.markdown("**Annotated Bounding Boxes**")
                 st.image(det_result.annotated_image, width="stretch")
 
-            if det_result.items:
+            if det_result.error:
+                st.error(det_result.error)
+            elif det_result.items:
                 st.markdown("**Detected Items Breakdown:**")
                 chips = " &nbsp; | &nbsp; ".join(
                     [f"**{cat}**: {cnt}" for cat, cnt in det_result.counts.items()]
